@@ -20,9 +20,4 @@
         </field>
     </record>
 <menuitem id="menu_empresa_reparto_root" name="Empresa Reparto"/>
-
-<menuitem id="menu_empleados"
-          name="Empleados"
-          parent="menu_empresa_reparto_root"
-          action="action_empleados"/>
 </odoo>

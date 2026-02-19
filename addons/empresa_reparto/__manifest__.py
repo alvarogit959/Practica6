@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Gestión Empresa Reparto',
-    'version': '1.0',
-    'author': 'Tu Nombre',
-    'category': 'Custom',
-    'summary': 'Gestión de empleados, vehículos y repartos',
+    'name': 'Empresa Reparto',
     'depends': ['base', 'web'],
 'data': [
     'views/menu.xml',
