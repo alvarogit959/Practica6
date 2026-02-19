@@ -1,0 +1,22 @@
+<odoo>
+    <template id="report_reparto_document">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="doc">
+                <h2>Reparto: <t t-esc="doc.name"/></h2>
+                <p>Empleado: <t t-esc="doc.empleado_id.name"/></p>
+                <p>Vehículo: <t t-esc="doc.vehiculo_id.name"/></p>
+                <p>Cliente: <t t-esc="doc.cliente_id.name"/></p>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="action_report_reparto"
+        model="empresa_reparto.reparto"
+        string="Reparto"
+        report_type="qweb-pdf"
+        name="empresa_reparto.report_reparto_document"
+        file="empresa_reparto.report_reparto_document"
+        print_report_name="'Reparto - %s' % (object.name)"
+    />
+</odoo>
