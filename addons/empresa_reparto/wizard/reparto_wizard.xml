@@ -2,7 +2,7 @@
 <!-- Vista del wizard -->
     <record id="view_reparto_wizard_form" model="ir.ui.view">
         <field name="name">reparto.wizard.form</field>
-        <field name="model">empresa_reparto.reparto_wizard</field>
+        <field name="model">reparto.reparto_wizard</field>
         <field name="arch" type="xml">
             <form string="Crear Reparto">
                 <group>
@@ -20,7 +20,7 @@
 <!-- Abrir wizard -->
     <record id="action_reparto_wizard" model="ir.actions.act_window">
         <field name="name">Crear Reparto</field>
-        <field name="res_model">empresa_reparto.reparto_wizard</field>
+        <field name="res_model">reparto.reparto_wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

@@ -1,15 +1,14 @@
 from odoo import models, fields
 
 class RepartoWizard(models.TransientModel):
-    _name = 'empresa_reparto.reparto_wizard'
-    _description = 'Wizard para crear reparto'
+    _name = 'reparto.reparto_wizard'
 
-    empleado_id = fields.Many2one('empresa_reparto.empleado', string="Empleado", required=True)
-    vehiculo_id = fields.Many2one('empresa_reparto.vehiculo', string="Vehículo", required=True)
-    cliente_id = fields.Many2one('empresa_reparto.cliente', string="Cliente", required=True)
+    empleado_id = fields.Many2one('reparto.empleado', string="Empleado", required=True)
+    vehiculo_id = fields.Many2one('reparto.vehiculo', string="Vehículo", required=True)
+    cliente_id = fields.Many2one('reparto.cliente', string="Cliente", required=True)
 
     def crear_reparto(self):
-        self.env['empresa_reparto.reparto'].create({
+        self.env['reparto.reparto'].create({
             'empleado_id': self.empleado_id.id,
             'vehiculo_id': self.vehiculo_id.id,
             'cliente_id': self.cliente_id.id,

@@ -1,5 +1,4 @@
 from odoo import models, fields, api
-
 from odoo.exceptions import ValidationError
 
 class Reparto(models.Model):
@@ -7,7 +6,6 @@ class Reparto(models.Model):
     _order = 'fecha_recepcion desc, urgencia'
 
     codigo = fields.Char(default='Nuevo', readonly=True)
-
     fecha_inicio = fields.Datetime()
     fecha_retorno = fields.Datetime()
     fecha_recepcion = fields.Datetime(required=True)
@@ -18,7 +16,6 @@ class Reparto(models.Model):
     kilometros = fields.Float()
     peso = fields.Float()
     volumen = fields.Float()
-
     observaciones = fields.Text()
 
     estado = fields.Selection([
@@ -38,31 +35,31 @@ class Reparto(models.Model):
     cliente_id = fields.Many2one('reparto.cliente')
     receptor = fields.Char()
 
-@api.constrains('empleado_id', 'vehiculo_id')
-def _check_carnet(self):
-    for record in self:
-        if record.vehiculo_id.tipo == 'bicicleta' and not record.empleado_id.carnet_ciclomotor:
-            raise ValidationError("El empleado no tiene carnet de ciclomotor.")
-        if record.vehiculo_id.tipo == 'furgoneta' and not record.empleado_id.carnet_furgoneta:
-            raise ValidationError("El empleado no tiene carnet de furgoneta.")
+    @api.constrains('empleado_id', 'vehiculo_id')
+    def _check_carnet(self):
+        for record in self:
+            if record.vehiculo_id.tipo == 'bicicleta' and not record.empleado_id.carnet_ciclomotor:
+                raise ValidationError("El empleado no tiene carnet de ciclomotor.")
+            if record.vehiculo_id.tipo == 'furgoneta' and not record.empleado_id.carnet_furgoneta:
+                raise ValidationError("El empleado no tiene carnet de furgoneta.")
 
-@api.constrains('empleado_id', 'estado')
-def _check_reparto_activo(self):
-    for record in self:
-        if record.estado == 'camino':
-            activos = self.search([
-                ('empleado_id', '=', record.empleado_id.id),
-                ('estado', '=', 'camino'),
-                ('id', '!=', record.id)
-            ])
-            if activos:
-                raise ValidationError("El empleado ya está en otro reparto activo.")
+    @api.constrains('empleado_id', 'estado')
+    def _check_reparto_activo(self):
+        for record in self:
+            if record.estado == 'camino':
+                activos = self.search([
+                    ('empleado_id', '=', record.empleado_id.id),
+                    ('estado', '=', 'camino'),
+                    ('id', '!=', record.id)
+                ])
+                if activos:
+                    raise ValidationError("El empleado ya está en otro reparto activo.")
 
-@api.constrains('kilometros', 'vehiculo_id')
-def _check_km(self):
-    for record in self:
-        if record.vehiculo_id.tipo == 'bicicleta' and record.kilometros > 10:
-            raise ValidationError("Más de 10km no puede hacerse en bicicleta.")
-        if record.vehiculo_id.tipo == 'furgoneta' and record.kilometros < 1:
-            raise ValidationError("Menos de 1km no puede hacerse en furgoneta.")
+    @api.constrains('kilometros', 'vehiculo_id')
+    def _check_km(self):
+        for record in self:
+            if record.vehiculo_id.tipo == 'bicicleta' and record.kilometros > 10:
+                raise ValidationError("Más de 10km no puede hacerse en bicicleta.")
+            if record.vehiculo_id.tipo == 'furgoneta' and record.kilometros < 1:
+                raise ValidationError("Menos de 1km no puede hacerse en furgoneta.")
 
