@@ -22,12 +22,19 @@
         <field name="arch" type="xml">
             <form string="Empleado">
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_repartos_pendientes"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-print"
+                                string="Repartos Pendientes"/>
+                    </div>
                     <group>
                         <field name="nombre"/>
                         <field name="apellidos"/>
                         <field name="dni"/>
                         <field name="telefono"/>
-                        <field name="foto"/>
+                        <field name="foto" widget="image"/>
                         <field name="carnet_ciclomotor"/>
                         <field name="carnet_furgoneta"/>
                     </group>

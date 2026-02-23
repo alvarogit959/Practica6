@@ -4,7 +4,9 @@
         <field name="name">reparto.list</field>
         <field name="model">reparto.reparto</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-danger="estado == 'camino'"
+                decoration-success="estado == 'entregado'"
+                decoration-muted="estado == 'no_salido'">
                 <field name="empleado_id"/>
                 <field name="vehiculo_id"/>
                 <field name="cliente_id"/>

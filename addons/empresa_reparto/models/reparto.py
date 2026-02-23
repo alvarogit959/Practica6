@@ -12,7 +12,7 @@ class Reparto(models.Model):
 
     empleado_id = fields.Many2one('reparto.empleado', required=True)
     vehiculo_id = fields.Many2one('reparto.vehiculo', required=True)
-
+    reparto_ids = fields.One2many('reparto.reparto', 'empleado_id')
     kilometros = fields.Float()
     peso = fields.Float()
     volumen = fields.Float()
@@ -46,15 +46,25 @@ class Reparto(models.Model):
     @api.constrains('empleado_id', 'estado')
     def _check_reparto_activo(self):
         for record in self:
-            if record.estado == 'camino':
-                activos = self.search([
-                    ('empleado_id', '=', record.empleado_id.id),
-                    ('estado', '=', 'camino'),
-                    ('id', '!=', record.id)
-                ])
-                if activos:
-                    raise ValidationError("El empleado ya está en otro reparto activo.")
-
+            activos = self.search([
+                ('empleado_id', '=', record.empleado_id.id),
+                ('estado', '=', 'camino'),
+                ('id', '!=', record.id)
+            ])
+            if activos and record.estado == 'camino':
+                raise ValidationError("El empleado ya tiene un reparto activo.")
+    @api.constrains('vehiculo_id', 'estado')
+    def _check_vehiculo_activo(self):
+            for record in self:
+                if record.estado == 'camino':
+                    activos = self.search([
+                        ('vehiculo_id', '=', record.vehiculo_id.id),
+                        ('estado', '=', 'camino'),
+                        ('id', '!=', record.id)
+                    ])
+                    if activos:
+                        raise ValidationError("El vehículo ya está en otro reparto activo.")
+                    
     @api.constrains('kilometros', 'vehiculo_id')
     def _check_km(self):
         for record in self:

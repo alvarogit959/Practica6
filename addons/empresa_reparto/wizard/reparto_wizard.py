@@ -1,4 +1,5 @@
-from odoo import models, fields
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class RepartoWizard(models.TransientModel):
     _name = 'reparto.reparto_wizard'
@@ -8,10 +9,19 @@ class RepartoWizard(models.TransientModel):
     cliente_id = fields.Many2one('reparto.cliente', string="Cliente", required=True)
 
     def crear_reparto(self):
-        self.env['reparto.reparto'].create({
+        Reparto = self.env['reparto.reparto']
+
+#Crear el reparto
+        reparto = Reparto.new({
             'empleado_id': self.empleado_id.id,
             'vehiculo_id': self.vehiculo_id.id,
             'cliente_id': self.cliente_id.id,
             'fecha_recepcion': fields.Datetime.now(),
+            'estado': 'camino',
         })
+
+        reparto._check_carnet()
+        reparto._check_reparto_activo()
+        reparto._check_km()
+        reparto_id = Reparto.create(reparto._convert_to_write(reparto._cache))
         return {'type': 'ir.actions.act_window_close'}

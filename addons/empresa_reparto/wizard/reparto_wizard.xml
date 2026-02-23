@@ -1,5 +1,5 @@
 <odoo>
-<!-- Vista del wizard -->
+<!--Vista-->
     <record id="view_reparto_wizard_form" model="ir.ui.view">
         <field name="name">reparto.wizard.form</field>
         <field name="model">reparto.reparto_wizard</field>
@@ -17,7 +17,7 @@
             </form>
         </field>
     </record>
-<!-- Abrir wizard -->
+<!--Abrir -->
     <record id="action_reparto_wizard" model="ir.actions.act_window">
         <field name="name">Crear Reparto</field>
         <field name="res_model">reparto.reparto_wizard</field>
