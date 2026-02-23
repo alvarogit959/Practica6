@@ -6,20 +6,11 @@ class RepartoController(http.Controller):
 
     @http.route('/repartos/estado/<string:codigo_reparto>', type='http', auth='public', methods=['GET'], csrf=False)
     def obtener_estado_reparto(self, codigo_reparto, **kwargs):
-        """
-        Controlador web que devuelve el estado de un reparto dado su código.
-        Ejemplo de uso: http://localhost:8069/repartos/estado/REP0001
-        """
         try:
-            # Buscar el reparto por su código
-            # Nota: Como en tu modelo 'codigo' es un campo readonly con default='Nuevo',
-            # necesitarás asegurarte de que se genere un código único.
-            # Si no tienes un mecanismo para generar códigos únicos, podemos usar el ID
             reparto = request.env['reparto.reparto'].sudo().search([
                 ('codigo', '=', codigo_reparto)
             ], limit=1)
-            
-            # Si no encuentra por código, intentar por ID (por si acaso)
+#test error de id
             if not reparto and codigo_reparto.isdigit():
                 reparto = request.env['reparto.reparto'].sudo().browse(int(codigo_reparto))
             
@@ -32,7 +23,7 @@ class RepartoController(http.Controller):
                     headers=[('Content-Type', 'application/json')]
                 )
             
-            # Preparar la información del reparto
+#Obtener la info 
             estado_texto = dict(reparto._fields['estado'].selection).get(reparto.estado)
             urgencia_texto = dict(reparto._fields['urgencia'].selection).get(reparto.urgencia)
             
@@ -90,10 +81,6 @@ class RepartoController(http.Controller):
 
     @http.route('/repartos/estado', type='http', auth='public', methods=['GET'], csrf=False)
     def listar_repartos(self, **kwargs):
-        """
-        Endpoint adicional que lista todos los repartos con su estado
-        Ejemplo: http://localhost:8069/repartos/estado
-        """
         try:
             repartos = request.env['reparto.reparto'].sudo().search([], limit=100)
             
@@ -152,8 +139,7 @@ class RepartoController(http.Controller):
                 </body>
             </html>
             """.format(codigo_reparto)
-        
-        # Obtener colores según estado
+#test, no funciona 
         color_estado = {
             'no_salido': 'gray',
             'camino': 'orange',

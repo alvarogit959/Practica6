@@ -13,6 +13,7 @@
         'views/cliente_views.xml',
         'views/reparto_views.xml',
         'views/menu.xml',
+        'reports/reparto_report.xml',
     ],
     'demo': [],
     'installable': True,
